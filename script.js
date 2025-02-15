@@ -78,8 +78,13 @@ async function fetchWeather(url) {
             document.getElementById('weather').innerHTML = `
                 <h3>${data.name}, ${data.sys.country} 🌍</h3>
                 <p>🌡 Temperature: ${data.main.temp}°C</p>
+                <p>🌡 Feels Like: ${data.main.feels_like}°C</p>
                 <p>🌦 Weather: ${data.weather[0].description}</p>
+                <p>💨 Wind: ${data.wind.speed} m/s</p>
+                <p>🌡 Pressure: ${data.main.pressure} hPa</p>
+                <p>💧 Humidity: ${data.main.humidity}%</p>
             `;
+            updateWeatherAnimation(data.weather[0].main);
             changeBackground(data.weather[0].main);
         } else {
             document.getElementById('weather').innerHTML = `<p>⚠️ City not found!</p>`;
@@ -88,3 +93,19 @@ async function fetchWeather(url) {
         document.getElementById('weather').innerHTML = `<p>⚠️ Error fetching data</p>`;
     }
 }
+
+function updateWeatherAnimation(weather) {
+    const animationContainer = document.getElementById('weather-animation');
+    if (weather.includes("Rain")) {
+        animationContainer.innerHTML = '🌧🌧';
+    } else if (weather.includes("Clouds")) {
+        animationContainer.innerHTML = '☁️☁️';
+    } else if (weather.includes("Snow")) {
+        animationContainer.innerHTML = '❄️❄️';
+    } else if (weather.includes("Partly")) {
+        animationContainer.innerHTML = '⛅';
+    } else {
+        animationContainer.innerHTML = '☀️';
+    }
+}
+
